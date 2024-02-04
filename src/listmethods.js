@@ -14,4 +14,8 @@ function displayList() {
     console.log(this.list);
 }
 
-export {removeItem, addItem, getItem, displayList};
+function getList() {
+    return this.list;
+}
+
+export {removeItem, addItem, getItem, displayList, getList};

@@ -1,15 +1,16 @@
-import {addItem, removeItem, displayList} from './listmethods.js';
+import {addItem, removeItem, displayList, getList} from './listmethods.js';
 
 
 const todoList = (listName, baseList) => {
-    let name = listName;
-    let list = baseList.map( (item) => item );
+    const retval = {
+        name: listName,
+        list: baseList.map( (item) => item ),
+        updateItem: function(index) {
+            list[index].update();
+        }
+    };
 
-    function updateItem(index) {
-        list[index].update();
-    }
-
-    return Object.assign({ name, list, updateItem }, { addItem, removeItem, displayList });
+    return Object.assign(retval, { addItem, removeItem, displayList, getList });
 };
 
 export default todoList;

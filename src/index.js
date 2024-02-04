@@ -1,10 +1,11 @@
-import { addItem, removeItem, getItem, displayList } from './listmethods.js';
+import { addItem, removeItem, getItem, displayList, getList } from './listmethods.js';
 import todoList from './todolist.js';
 import listItem from './listitem.js';
+import './styles.css';
 
 
 
-const gameController = (() => {
+const listController = (() => {
     let sublist;
     const listHolder = (() => {
         let list = [];
@@ -23,6 +24,9 @@ const gameController = (() => {
         sublist = listHolder.getItem(index);
         sublist.displayList();
     }
+    function changeSublistName(name) {
+        sublist.name = name;
+    }
     function addToSublist() {
         sublist.addItem(listItem());
         sublist.displayList();
@@ -35,39 +39,51 @@ const gameController = (() => {
         sublist.updateItem(index);
         sublist.displayList();
     }
-    return {addList, removeList, chooseSublist, addToSublist, removeFromSublist, modifySublistItem};
+    return {addList, removeList, chooseSublist, addToSublist, removeFromSublist, modifySublistItem, changeSublistName};
 });
 
 
-const screenHandler = (() => {
-    const game = gameController();
+const screenController = (() => {
+    const backingList = listController();
+    const listGrid = document.querySelector('#list-grid');
     const addList = document.querySelector('#add-list');
     const removeList = document.querySelector('#remove-list');
     const selectSublist = document.querySelector('#select-sublist');
+    const changeSublistName = document.querySelector('#change-sublist-name');
     const addListItem = document.querySelector('#add-list-item');
     const removeListItem = document.querySelector('#remove-list-item');
     const modifyListItem = document.querySelector('#modify-list-item');
+    let currentSublist;
 
+    function renderList(list) {
+        const todoListHolder = document.createElement('div');
+        todoListHolder.classList.toggle('todo-list');
+        todoListHolder.textContent = backingList.getItem(getList);
+    }
     addList.addEventListener('click', (e) => {
-        game.addList();
+        backingList.addList();
     });
     removeList.addEventListener('click', (e) => {
         let removeIndex = prompt('What index list would you like to remove?');
-        game.removeList(removeIndex);
+        backingList.removeList(removeIndex);
     });
     selectSublist.addEventListener('click', (e) => {
         let index = prompt('what index would you like to modify?');
-        game.chooseSublist(index);
+        backingList.chooseSublist(index);
+    });
+    changeSublistName.addEventListener('click', (e) => {
+        let name = prompt('what would you like to rename the sublist to?');
+        backingList.changeSublistName(name);
     });
     addListItem.addEventListener('click', (e) => {
-        game.addToSublist();
+        backingList.addToSublist();
     });
     removeListItem.addEventListener('click', (e) => {
         let index = prompt('What index would you like to remove?');
-        game.removeFromSublist();
+        backingList.removeFromSublist();
     });
     modifyListItem.addEventListener('click', (e) => {
         let index = prompt('What index would you like to modify?');
-        game.modifySublistItem(index);
+        backingList.modifySublistItem(index);
     });
 })();
