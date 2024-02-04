@@ -1,12 +1,15 @@
-class TodoList {
-    constructor(listName, baseList) {
-        this.name = listName;
-        this.list = baseList.map( (item) => item );
+import {addItem, removeItem, displayList} from './listmethods.js';
+
+
+const todoList = (listName, baseList) => {
+    let name = listName;
+    let list = baseList.map( (item) => item );
+
+    function updateItem(index) {
+        list[index].update();
     }
 
-    addItem(item) {
-        this.list.push(item);
-    }
-}
+    return Object.assign({ name, list, updateItem }, { addItem, removeItem, displayList });
+};
 
-export default TodoList;
+export default todoList;

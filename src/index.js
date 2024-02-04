@@ -1,34 +1,73 @@
-import TodoList from './todolist.js';
-import ListItem from './listitem.js';
+import { addItem, removeItem, getItem, displayList } from './listmethods.js';
+import todoList from './todolist.js';
+import listItem from './listitem.js';
+
+
 
 const gameController = (() => {
-    const listHolder = [];
-    function displayListHolder() {
-        console.log('listHolder is now:');
-        console.log(listHolder);
-    }
+    let sublist;
+    const listHolder = (() => {
+        let list = [];
+        return Object.assign({list}, {addItem, removeItem, getItem, displayList});
+    })();
+
     function addList(listName = 'Todo List') {
-        listHolder.push(new TodoList(listName, []));
-        displayListHolder();
+        listHolder.addItem(todoList(listName, []));
+        listHolder.displayList();
     }
     function removeList(index) {
-        listHolder.splice(index, 1);
-        displayListHolder();
+        listHolder.removeItem(index);
+        listHolder.displayList();
     }
-    return {addList, removeList};
+    function chooseSublist(index) {
+        sublist = listHolder.getItem(index);
+        sublist.displayList();
+    }
+    function addToSublist() {
+        sublist.addItem(listItem());
+        sublist.displayList();
+    }
+    function removeFromSublist(index) {
+        sublist.removeItem(index);
+        sublist.displayList();
+    }
+    function modifySublistItem(index) {
+        sublist.updateItem(index);
+        sublist.displayList();
+    }
+    return {addList, removeList, chooseSublist, addToSublist, removeFromSublist, modifySublistItem};
 });
 
 
 const screenHandler = (() => {
     const game = gameController();
-    const addListButton = document.querySelector('#add-list');
-    const removeListButton = document.querySelector('#remove-list');
+    const addList = document.querySelector('#add-list');
+    const removeList = document.querySelector('#remove-list');
+    const selectSublist = document.querySelector('#select-sublist');
+    const addListItem = document.querySelector('#add-list-item');
+    const removeListItem = document.querySelector('#remove-list-item');
+    const modifyListItem = document.querySelector('#modify-list-item');
 
-    addListButton.addEventListener('click', (e) => {
+    addList.addEventListener('click', (e) => {
         game.addList();
     });
-    removeListButton.addEventListener('click', (e) => {
+    removeList.addEventListener('click', (e) => {
         let removeIndex = prompt('What index list would you like to remove?');
         game.removeList(removeIndex);
+    });
+    selectSublist.addEventListener('click', (e) => {
+        let index = prompt('what index would you like to modify?');
+        game.chooseSublist(index);
+    });
+    addListItem.addEventListener('click', (e) => {
+        game.addToSublist();
+    });
+    removeListItem.addEventListener('click', (e) => {
+        let index = prompt('What index would you like to remove?');
+        game.removeFromSublist();
+    });
+    modifyListItem.addEventListener('click', (e) => {
+        let index = prompt('What index would you like to modify?');
+        game.modifySublistItem(index);
     });
 })();
