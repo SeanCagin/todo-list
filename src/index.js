@@ -28,6 +28,9 @@ const listController = (() => {
         //sublist.displayList();
         return sublist;
     }
+    function getSelected() {
+        return sublist;
+    }
     function getSublist(index) {
         return listHolder.getItem(index);
     }
@@ -52,7 +55,7 @@ const listController = (() => {
     function getSize() {
         return size;
     }
-    return {addList, removeList, chooseSublist, addToSublist, removeFromSublist, modifySublistItem, changeSublistName, getSize, getSublist};
+    return {addList, removeList, chooseSublist, addToSublist, removeFromSublist, modifySublistItem, changeSublistName, getSize, getSublist, getSelected};
 });
 
 
@@ -78,6 +81,9 @@ const screenController = (() => {
             const body = document.createElement('ul');
             todoListHolder.classList.toggle('todo-list');
             let currList = backingList.getSublist(i);
+            if (currList == backingList.getSelected()) {
+                todoListHolder.classList.toggle('selected');
+            }
             title.textContent = currList.name;
             console.log(currList.getList().length);
             for (let j = 0; j < currList.getList().length; j++) {
@@ -87,7 +93,7 @@ const screenController = (() => {
                 const listElementTitle = document.createElement('h3');
                 const listElementDescription = document.createElement('p');
                 const listElementCompleted = document.createElement('span');
-                listElementTitle.textContent = currItem.title;
+                listElementTitle.textContent = currItem.title; 
                 listElementDescription.textContent = currItem.description;
                 listElementCompleted.textContent = currItem.isCompleted;
                 listElementHolder.appendChild(listElementTitle);
