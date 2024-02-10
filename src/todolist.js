@@ -1,4 +1,4 @@
-import {addItem, removeItem, displayList, getList} from './listmethods.js';
+import {addItem, removeItem, displayList, getList, getItem} from './listmethods.js';
 
 
 const todoList = (listName, baseList) => {
@@ -10,7 +10,7 @@ const todoList = (listName, baseList) => {
         }
     };
 
-    return Object.assign(retval, { addItem, removeItem, displayList, getList });
+    return Object.assign(retval, { addItem, removeItem, displayList, getList, getItem });
 };
 
 export default todoList;
