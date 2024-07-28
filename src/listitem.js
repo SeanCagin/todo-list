@@ -1,20 +1,23 @@
-const listItem = (titleArg, descriptionArg, isCompletedArg) => {
+import uimethods from "./uimethods";
+
+// callers of listItem cannot know exactly what listItem wants so it 
+// makes more sense for list item to call the individual ui functions to
+// get the necessary data it needs.
+const listItem = () => {
     const retval = {
-        title: '',
-        description: '',
+        // title: '',
+        // description: '',
+        // priority: 0,
+        // dueDate: 'Jan 1',
         isCompleted: false,
     };
-    function makeItem(defaultTitle = 'List Item',
-        defaultDescription = 'complete list item') {
-        this.title = prompt('What is the title of your item?', defaultTitle);
-        this.description = prompt('What is the description of your list item', defaultDescription);
+    function makeItem() {
+        this.title = uimethods.readItemTitle();
+        this.description = uimethods.readItemDescription();
+        this.priority = uimethods.readItemPriority();
+        this.dueDate = uimethods.readItemDueDate();
     };
-    function update() {
-        this.makeItem(this.title, this.description);
-        this.isCompleted = confirm('Have you completed this item?') ?? false;
-    }
-    Object.getPrototypeOf(retval).makeItem = makeItem;
-    Object.getPrototypeOf(retval).update = update;
+    Object.getPrototypeOf(retval).makeItem = makeItem; // This is only useful to make sense of the 'this' keywords in makeItem
     retval.makeItem();
 
     return retval;

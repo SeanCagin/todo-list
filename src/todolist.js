@@ -1,4 +1,5 @@
 import {addItem, removeItem, displayList, getList, getItem} from './listmethods.js';
+import listItem from './listitem.js';
 
 
 const todoList = (listName, baseList) => {
@@ -12,5 +13,16 @@ const todoList = (listName, baseList) => {
 
     return Object.assign(retval, { addItem, removeItem, displayList, getList, getItem });
 };
+
+const otherList = () => {
+    const retval = {
+        name: listName,
+        list: [],
+        addItem() {
+            let newItem = llistItem.makeItem();
+            list[this.list.length - 1] = newItem;
+        },
+    }
+}
 
 export default todoList;
