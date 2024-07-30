@@ -10,6 +10,9 @@ const listItem = () => {
         // priority: 0,
         // dueDate: 'Jan 1',
         isCompleted: false,
+        toggleComplete() {
+            this.isCompleted = !this.isCompleted; // will require further implementation for ui features.
+        },
     };
     function makeItem() {
         this.title = uimethods.readItemTitle();

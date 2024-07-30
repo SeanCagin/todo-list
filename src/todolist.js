@@ -1,5 +1,6 @@
 import {addItem, removeItem, displayList, getList, getItem} from './listmethods.js';
 import listItem from './listitem.js';
+import uimethods from './uimethods.js';
 
 
 const todoList = (listName, baseList) => {
@@ -14,15 +15,24 @@ const todoList = (listName, baseList) => {
     return Object.assign(retval, { addItem, removeItem, displayList, getList, getItem });
 };
 
-const otherList = () => {
-    const retval = {
-        name: listName,
-        list: [],
-        addItem() {
-            let newItem = llistItem.makeItem();
-            list[this.list.length - 1] = newItem;
-        },
-    }
-}
+// const todoList = () => {
+//     const retval = {
+//         title: "",
+//         list: [],
+//         addItem() {
+//             let newItem = listItem.makeItem();
+//             list[this.list.length - 1] = newItem;
+//         },
+//         removeItem(index) {
+//             // To be implemented
+//         }
+//     };
+//     function makeList() {
+//         this.title = uimethods.readListTitle();
+//     }
+//     Object.getPrototypeOf(retval).makeList = makeList;
+//     retval.makeList();
+//     return retval;
+// }
 
 export default todoList;
