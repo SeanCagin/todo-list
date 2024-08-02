@@ -24,17 +24,15 @@ const listController = (() => {
 
     function addList(listName = 'Todo List') {
         listHolder.addItem(todoList(listName, []));
-        listHolder.displayList();
         size++;
     }
     function removeList(index) {
         listHolder.removeItem(index);
-        listHolder.displayList();
         size = size > 0 ? size - 1 : 0;
     }
     function chooseSublist(index) {
         sublist = listHolder.getItem(index);
-        //sublist.displayList();
+        sublist.displayList();
         return sublist;
     }
     function getSelected() {
@@ -76,11 +74,13 @@ const screenController = (() => {
     const addListItem = document.querySelector('#add-list-item');
     const removeListItem = document.querySelector('#remove-list-item');
     const modifyListItem = document.querySelector('#modify-list-item');
-    let currentSublist;
+    
+    const placeHolderText = document.createElement('div');
+    placeHolderText.innerText = `Looks like you have no todo lists created yet!
+                                Click on the + to create your first list!`;
 
     function renderList() {
         if (backingList.getSize() == 1) {
-            listGrid.innerHTML = '';
             listGrid.classList.remove('empty');
         }
         listGrid.innerHTML = '';
@@ -126,38 +126,19 @@ const screenController = (() => {
             }
             title.textContent = currList.name;
             title.appendChild(editButton);
-            console.log(currList.getList().length);
-/*             for (let j = 0; j < currList.getList().length; j++) {
-                let currItem = currList.getItem(j);
-                console.log(currItem);
-                const listElementHolder = document.createElement('li');
-                const listElementTitle = document.createElement('h3');
-                const listElementDescription = document.createElement('p');
-                const listElementCompleted = document.createElement('span');
-                listElementTitle.textContent = currItem.title; 
-                listElementDescription.textContent = currItem.description;
-                listElementCompleted.textContent = currItem.isCompleted;
-                listElementHolder.appendChild(listElementTitle);
-                listElementHolder.appendChild(listElementDescription);
-                listElementHolder.appendChild(listElementCompleted);
-                body.appendChild(listElementHolder);
-            } */
+
             topHolder.appendChild(title);
             topHolder.appendChild(delButton);
             todoListHolder.appendChild(topHolder);
             todoListHolder.appendChild(body);
             todoListHolder.addEventListener('click', (e) => {
                 backingList.chooseSublist(i);
-                renderList();
+                //renderList();
             });
             listGrid.appendChild(todoListHolder);
         }
-        console.log(backingList.getSize());
         if (backingList.getSize() == 0) {
             listGrid.classList.add('empty');
-            const placeHolderText = document.createElement('div');
-            placeHolderText.innerText = `Looks like you have no todo lists created yet!
-                                        Click on the + to create your first list!`
             listGrid.appendChild(placeHolderText);
         } 
     }
@@ -182,3 +163,5 @@ const screenController = (() => {
     }); */
     renderList();
 })();
+
+export default screenController;

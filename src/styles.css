@@ -31,6 +31,10 @@
   height: 5rem;
   width: 40%;
 }
+#header.in-list {
+  justify-content: space-between;
+  font-size: 2rem;
+}
 body {
   background-color: var(--secondary-color);
   color: var(--primary-color);
@@ -57,12 +61,15 @@ body {
 }
 #list-box > div {
   font-size: 2rem;
-  display: block;
+  text-align: center;
 }
 .empty#list-box {
   height: 20rem;
   align-items: center;
   justify-content: center;
+}
+#list-box.in-list {
+
 }
 .todo-list {
   background-color: var(--tertiary-color);
@@ -97,7 +104,7 @@ body {
   height: 1.4rem;
   font-size: 1.4rem;
 }
-#add-list-img {
+#header-img {
   width: 2rem;
   height: 2rem;
   border: none;
