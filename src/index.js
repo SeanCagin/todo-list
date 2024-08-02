@@ -4,9 +4,15 @@ import listItem from './listitem.js';
 import './styles.css';
 import deleteImage from './assets/exit.png'
 import editImage from './assets/edit.svg'
+import addImage from './assets/add.svg'
 import todolistholder from './todolistholder.js';
 
 
+/* const addList = document.querySelector('#add-list');
+const addImg = document.createElement('img');
+addList.innerHTML = '';
+addImg.src = addImage;
+addList.appendChild(addImg); */
 
 const listController = (() => {
     let sublist;
@@ -64,17 +70,20 @@ const listController = (() => {
 
 const screenController = (() => {
     const backingList = listController();
+    const addButton = document.querySelector('#add-list');
     const buttonList = document.querySelectorAll('.action-button');
     const listGrid = document.querySelector('#list-box');
-    const addList = document.querySelector('#add-list');
     const addListItem = document.querySelector('#add-list-item');
     const removeListItem = document.querySelector('#remove-list-item');
     const modifyListItem = document.querySelector('#modify-list-item');
     let currentSublist;
 
     function renderList() {
-       // console.log(backingList.getSize());
-       listGrid.innerHTML = '';
+        if (backingList.getSize() == 1) {
+            listGrid.innerHTML = '';
+            listGrid.classList.remove('empty');
+        }
+        listGrid.innerHTML = '';
         for (let i = 0; i < backingList.getSize(); i++) {
             const todoListHolder = document.createElement('div');
 
@@ -143,17 +152,21 @@ const screenController = (() => {
             });
             listGrid.appendChild(todoListHolder);
         }
+        console.log(backingList.getSize());
+        if (backingList.getSize() == 0) {
+            listGrid.classList.add('empty');
+            const placeHolderText = document.createElement('div');
+            placeHolderText.innerText = `Looks like you have no todo lists created yet!
+                                        Click on the + to create your first list!`
+            listGrid.appendChild(placeHolderText);
+        } 
     }
-    addList.addEventListener('click', (e) => {
+    addButton.addEventListener('click', (e) => {
         backingList.addList();
         renderList();
     });
-    changeSublistName.addEventListener('click', (e) => {
-        let name = prompt('what would you like to rename the sublist to?');
-        backingList.changeSublistName(name);
-        renderList();
-    });
-    addListItem.addEventListener('click', (e) => {
+
+/*     addListItem.addEventListener('click', (e) => {
         backingList.addToSublist();
         renderList();
     });
@@ -166,5 +179,6 @@ const screenController = (() => {
         let index = prompt('What index would you like to modify?');
         backingList.modifySublistItem(index);
         renderList();
-    });
+    }); */
+    renderList();
 })();

@@ -9,13 +9,15 @@
   <title>Todo List</title>
 </head>
 <body>
-  <h1>
-    Welcome to TodoList!
-  </h1>
-  <button class="action-button" id="add-list">Add</button>
-  <button class="action-button" id="add-list-item">Add a list item</button>
+  <div id="header-holder">
+    <div id="header">
+      <button class="action-button" id="add-list"><img src="<%=require('./assets/add.svg')%>" alt="add list" class="todo-img" id="add-list-img"></button>
+    </div>
+  </div>
+
+<!--   <button class="action-button" id="add-list-item">Add a list item</button>
   <button class="action-button" id="remove-list-item">Remove a list item</button>
-  <button class="action-button" id="modify-list-item">Modify a list item</button>
+  <button class="action-button" id="modify-list-item">Modify a list item</button> -->
   <div class="list-holder">
     <div id="list-box"></div>
   </div>

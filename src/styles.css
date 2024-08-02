@@ -13,6 +13,24 @@
   --sixth-color: #777;
   --background-color: #7dd3fc;
 }
+#header-holder {
+  display: flex;
+  justify-content: center;
+}
+#header {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 2rem;
+  height: 5rem;
+  width: 40%;
+}
 body {
   background-color: var(--secondary-color);
   color: var(--primary-color);
@@ -33,9 +51,18 @@ body {
   width: 40%;
   border-radius: 1rem;
   overflow: hidden;
-  margin: 2rem 0;
+  margin: 5rem 0;
     /* display: grid;
   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); */
+}
+#list-box > div {
+  font-size: 2rem;
+  display: block;
+}
+.empty#list-box {
+  height: 20rem;
+  align-items: center;
+  justify-content: center;
 }
 .todo-list {
   background-color: var(--tertiary-color);
@@ -69,6 +96,17 @@ body {
   align-items: center;
   height: 1.4rem;
   font-size: 1.4rem;
+}
+#add-list-img {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  color: white;
+  background-color: inherit;
+}
+#add-list {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
 }
 li {
   display: flex;
