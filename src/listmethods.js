@@ -27,7 +27,7 @@ function displayList() {
     header.innerHTML = '';
 
     const backButton = document.createElement('button');
-    backButton.classList.toggle('todo-button');
+    backButton.classList.toggle('header-button');
     const backImg = document.createElement('img');
     backImg.src = backImage;
     backImg.classList.toggle('header-img');
@@ -40,16 +40,21 @@ function displayList() {
     addButton.classList.toggle('todo-button');
     const addImg = document.createElement('img');
     addImg.src = addImage;
-    addButton.classList.toggle('header-img');
+    addImg.classList.toggle('header-img');
+    addButton.classList.toggle('header-button'); 
     addButton.appendChild(addImg);
+    addButton.addEventListener('click', (e) => {
+        this.addTask();
+        renderInnerList();
+    });
     
     header.appendChild(backButton);
     header.appendChild(listTitle);
-    header.appendChild(addImg);
+    header.appendChild(addButton);
 
 
     listGrid.innerHTML = '';
-    const renderInnerList = (() => {
+    const renderInnerList = () => {
         listGrid.classList.add('in-list');
         if (this.list.length == 1) {
             listGrid.classList.remove('empty');
@@ -90,8 +95,8 @@ function displayList() {
             const topHolder = document.createElement('div');
             topHolder.classList.toggle('top-holder');
             taskHolder.classList.toggle('task');
-            title.textContent = this.list[i].title;
-            title.appendChild(editButton);
+            name.textContent = this.list[i].title;
+            name.appendChild(editButton);
             
             topHolder.appendChild(name);
             topHolder.appendChild(delButton);
@@ -101,9 +106,10 @@ function displayList() {
                 backingList.chooseSublist(i);
                 renderList();
             });
-            listGrid.appendChild(todoListHolder);
+            listGrid.appendChild(taskHolder);
         }
-    })();
+    };
+    renderInnerList();
     /*             for (let j = 0; j < currList.getList().length; j++) {
                 let currItem = currList.getItem(j);
                 console.log(currItem);
@@ -119,76 +125,8 @@ function displayList() {
                 listElementHolder.appendChild(listElementCompleted);
                 body.appendChild(listElementHolder);
             } */
+           
 
-}
-
-
-function renderList() {
-    listGrid.classList.add('inner-list');
-    if (backingList.getSize() == 1) {
-        listGrid.innerHTML = '';
-        listGrid.classList.remove('empty');
-    }
-    listGrid.innerHTML = '';
-    for (let i = 0; i < backingList.getSize(); i++) {
-        const todoListHolder = document.createElement('div');
-
-        const title = document.createElement('div');
-        title.classList.toggle('todo-title');
-        const editButton = document.createElement('button');
-        const editImg = document.createElement('img');
-        editImg.src = editImage;
-        editButton.appendChild(editImg);
-        editImg.classList.toggle('todo-img');
-        editButton.classList.toggle('todo-button');
-        editButton.addEventListener('click', (e) => {
-            let name = prompt('what would you like to rename the sublist to?');
-            backingList.changeSublistName(i, name);
-            renderList();
-        });
-        // Edit button is appended later becaue title's textContent is changed.
-
-        const body = document.createElement('ul');
-
-        const delButton = document.createElement('button');
-        const delImg = document.createElement('img');
-        delImg.classList.toggle('todo-img');
-
-        delImg.src = deleteImage;
-        delButton.appendChild(delImg);
-        delButton.classList.toggle('todo-button');
-        delButton.addEventListener('click', (e) => {
-            e.stopImmediatePropagation()
-            backingList.removeList(i);
-            renderList();
-        });
-
-        const topHolder = document.createElement('div');
-        topHolder.classList.toggle('top-holder');
-        todoListHolder.classList.toggle('todo-list');
-        let currList = backingList.getSublist(i);
-        if (currList == backingList.getSelected()) {
-            todoListHolder.classList.toggle('selected');
-        }
-        title.textContent = currList.name;
-        title.appendChild(editButton);
-        console.log(currList.getList().length);
-
-        topHolder.appendChild(title);
-        topHolder.appendChild(delButton);
-        todoListHolder.appendChild(topHolder);
-        // todoListHolder.appendChild(body);
-        todoListHolder.addEventListener('click', (e) => {
-            backingList.chooseSublist(i);
-            renderList();
-        });
-        listGrid.appendChild(todoListHolder);
-    }
-    console.log(backingList.getSize());
-    if (backingList.getSize() == 0) {
-        listGrid.classList.add('empty');
-        listGrid.appendChild(placeHolderText);
-    } 
 }
 
 

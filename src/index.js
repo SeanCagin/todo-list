@@ -8,11 +8,6 @@ import addImage from './assets/add.svg'
 import todolistholder from './todolistholder.js';
 
 
-/* const addList = document.querySelector('#add-list');
-const addImg = document.createElement('img');
-addList.innerHTML = '';
-addImg.src = addImage;
-addList.appendChild(addImg); */
 
 const listController = (() => {
     let sublist;
@@ -68,7 +63,6 @@ const listController = (() => {
 
 const screenController = (() => {
     const backingList = listController();
-    const addButton = document.querySelector('#add-list');
     const buttonList = document.querySelectorAll('.action-button');
     const listGrid = document.querySelector('#list-box');
     const addListItem = document.querySelector('#add-list-item');
@@ -78,6 +72,17 @@ const screenController = (() => {
     const placeHolderText = document.createElement('div');
     placeHolderText.innerText = `Looks like you have no todo lists created yet!
                                 Click on the + to create your first list!`;
+
+                                
+    const header = document.querySelector('#header');
+    const addImg = document.createElement('img');
+    const addButton = document.createElement('button');
+
+    addImg.src = addImage;
+    addImg.classList.toggle('header-img');
+    addButton.appendChild(addImg);
+    addButton.classList.toggle('header-button');
+    header.appendChild(addButton);
 
     function renderList() {
         if (backingList.getSize() == 1) {

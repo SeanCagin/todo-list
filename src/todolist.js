@@ -9,6 +9,9 @@ const todoList = (listName, baseList) => {
         list: baseList.map( (item) => item ),
         updateItem: function(index) {
             list[index].update();
+        },
+        addTask() {
+            this.list.push(listItem());
         }
     };
 
