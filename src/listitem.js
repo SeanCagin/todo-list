@@ -15,15 +15,58 @@ const listItem = () => {
         },
     };
     function makeItem() {
-        this.title = uimethods.readItemTitle();
-        this.description = uimethods.readItemDescription();
-        this.priority = uimethods.readItemPriority();
-        this.dueDate = uimethods.readItemDueDate();
+        //const itemInfo = listItemInput();
+        listItemInput()
+            .then(itemInfo => {
+                this.name = itemInfo.name;
+                this.priority = itemInfo.priority;
+                this.dueDate = itemInfo.dueDate;
+            })
+            .catch(e => {
+                console.log(e);
+            })
+        // console.log('what what what what');
+
     };
     Object.getPrototypeOf(retval).makeItem = makeItem; // This is only useful to make sense of the 'this' keywords in makeItem
     retval.makeItem();
 
     return retval;
+};
+
+
+// Renders the necessary form to collect list item data
+const listItemInput = () => {
+    const dialog = document.querySelector('dialog');
+    const form = document.querySelector('form');
+    const closeDialog = document.querySelector('#close');
+    const submitDialog = document.querySelector('#submit');
+
+    dialog.showModal();
+
+    const retval = {
+        name: '',
+        priority: '',
+        dueDate: '',
+    };
+
+    closeDialog.addEventListener('click', (e) => {
+        form.reset();
+        dialog.close();
+    });
+
+    submitDialog.addEventListener('click', (e) => {
+        e.preventDefault();
+        if(form.checkValidity()) {
+            let data = new FormData(form);
+            retval.name = data.get('name');
+            retval.priority = data.get('priority');
+            retval.dueDate = data.get('due-date');
+            return retval;
+        } else {
+            form.reportValidity();
+        }
+    });
 };
 
 export default listItem;

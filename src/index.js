@@ -61,30 +61,38 @@ const listController = (() => {
 });
 
 
+
+
 const screenController = (() => {
+
     const backingList = listController();
-    const buttonList = document.querySelectorAll('.action-button');
-    const listGrid = document.querySelector('#list-box');
-    const addListItem = document.querySelector('#add-list-item');
-    const removeListItem = document.querySelector('#remove-list-item');
-    const modifyListItem = document.querySelector('#modify-list-item');
-    
-    const placeHolderText = document.createElement('div');
-    placeHolderText.innerText = `Looks like you have no todo lists created yet!
-                                Click on the + to create your first list!`;
-
-                                
-    const header = document.querySelector('#header');
-    const addImg = document.createElement('img');
-    const addButton = document.createElement('button');
-
-    addImg.src = addImage;
-    addImg.classList.toggle('header-img');
-    addButton.appendChild(addImg);
-    addButton.classList.toggle('header-button');
-    header.appendChild(addButton);
 
     function renderList() {
+        const buttonList = document.querySelectorAll('.action-button');
+        const listGrid = document.querySelector('#list-box');
+        listGrid.innerHTML = '';
+        listGrid.className = '';
+        const addListItem = document.querySelector('#add-list-item');
+        const removeListItem = document.querySelector('#remove-list-item');
+        const modifyListItem = document.querySelector('#modify-list-item');
+        
+        const placeHolderText = document.createElement('div');
+        placeHolderText.innerText = `Looks like you have no todo lists created yet!
+                                    Click on the + to create your first list!`;
+    
+                                    
+        const header = document.querySelector('#header');
+        header.innerHTML = '';
+        header.className = '';
+        const addImg = document.createElement('img');
+        const addButton = document.createElement('button');
+    
+        addImg.src = addImage;
+        addImg.classList.toggle('header-img');
+        addButton.appendChild(addImg);
+        addButton.classList.toggle('header-button');
+        header.appendChild(addButton);
+
         if (backingList.getSize() == 1) {
             listGrid.classList.remove('empty');
         }
@@ -101,6 +109,7 @@ const screenController = (() => {
             editImg.classList.toggle('todo-img');
             editButton.classList.toggle('todo-button');
             editButton.addEventListener('click', (e) => {
+                e.stopImmediatePropagation()
                 let name = prompt('what would you like to rename the sublist to?');
                 backingList.changeSublistName(i, name);
                 renderList();
@@ -124,11 +133,9 @@ const screenController = (() => {
 
             const topHolder = document.createElement('div');
             topHolder.classList.toggle('top-holder');
-            todoListHolder.classList.toggle('todo-list');
+            todoListHolder.classList.toggle('list');
             let currList = backingList.getSublist(i);
-            if (currList == backingList.getSelected()) {
-                todoListHolder.classList.toggle('selected');
-            }
+            
             title.textContent = currList.name;
             title.appendChild(editButton);
 
@@ -146,12 +153,11 @@ const screenController = (() => {
             listGrid.classList.add('empty');
             listGrid.appendChild(placeHolderText);
         } 
+        addButton.addEventListener('click', (e) => {
+            backingList.addList();
+            renderList();
+        });
     }
-    addButton.addEventListener('click', (e) => {
-        backingList.addList();
-        renderList();
-    });
-
 /*     addListItem.addEventListener('click', (e) => {
         backingList.addToSublist();
         renderList();
@@ -167,6 +173,8 @@ const screenController = (() => {
         renderList();
     }); */
     renderList();
+    return renderList;
 })();
+
 
 export default screenController;

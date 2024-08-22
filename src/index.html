@@ -21,5 +21,29 @@
   <div class="list-holder">
     <div id="list-box"></div>
   </div>
+  <dialog>
+    <form action="">
+      <div class="form-pair-holder">
+        <label for="name" class="form-label">Name: </label>
+        <input type="text" minlength="1" name="name" id="name" required />
+      </div>
+      <div class="form-pair-holder">
+        <label for="priority" class="form-label">Priority: </label>
+        <select name="priority" id="priority" required>
+          <option value="1">not that important</option>
+          <option value="2">somewhat important</option>
+          <option value="3">life or death</option>
+        </select>
+      </div>
+      <div class="form-pair-holder">
+        <label for="due-date" class="form-label">Due Date: </label>
+        <input type="date" name="due-date" id="due-date" required />
+      </div>
+      <div class="form-button-holder">
+        <button type="button" id="close">Close</button>
+        <button type="submit" id="submit">Submit</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>

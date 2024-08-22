@@ -52,6 +52,10 @@ function displayList() {
     header.appendChild(listTitle);
     header.appendChild(addButton);
 
+    backButton.addEventListener('click', (e) => {
+        screenController();
+    });
+
 
     listGrid.innerHTML = '';
     const renderInnerList = () => {
@@ -62,9 +66,10 @@ function displayList() {
         listGrid.innerHTML = '';
         for (let i = 0; i < this.list.length; i++) {
             const taskHolder = document.createElement('div');
+            taskHolder.classList.toggle('list');
     
             const name = document.createElement('div');
-            // title.classList.toggle('todo-title');
+            name.classList.toggle('todo-title');
             const editButton = document.createElement('button');
             const editImg = document.createElement('img');
             editImg.src = editImage;
