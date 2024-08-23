@@ -5,7 +5,6 @@ import './styles.css';
 import deleteImage from './assets/exit.png'
 import editImage from './assets/edit.svg'
 import addImage from './assets/add.svg'
-import todolistholder from './todolistholder.js';
 
 
 
@@ -68,13 +67,9 @@ const screenController = (() => {
     const backingList = listController();
 
     function renderList() {
-        const buttonList = document.querySelectorAll('.action-button');
         const listGrid = document.querySelector('#list-box');
         listGrid.innerHTML = '';
         listGrid.className = '';
-        const addListItem = document.querySelector('#add-list-item');
-        const removeListItem = document.querySelector('#remove-list-item');
-        const modifyListItem = document.querySelector('#modify-list-item');
         
         const placeHolderText = document.createElement('div');
         placeHolderText.innerText = `Looks like you have no todo lists created yet!
@@ -102,13 +97,10 @@ const screenController = (() => {
 
             const title = document.createElement('div');
             title.classList.toggle('todo-title');
-            const editButton = document.createElement('button');
             const editImg = document.createElement('img');
             editImg.src = editImage;
-            editButton.appendChild(editImg);
             editImg.classList.toggle('todo-img');
-            editButton.classList.toggle('todo-button');
-            editButton.addEventListener('click', (e) => {
+            editImg.addEventListener('click', (e) => {
                 e.stopImmediatePropagation()
                 let name = prompt('what would you like to rename the sublist to?');
                 backingList.changeSublistName(i, name);
@@ -118,14 +110,11 @@ const screenController = (() => {
 
             const body = document.createElement('ul');
 
-            const delButton = document.createElement('button');
             const delImg = document.createElement('img');
             delImg.classList.toggle('todo-img');
 
             delImg.src = deleteImage;
-            delButton.appendChild(delImg);
-            delButton.classList.toggle('todo-button');
-            delButton.addEventListener('click', (e) => {
+            delImg.addEventListener('click', (e) => {
                 e.stopImmediatePropagation()
                 backingList.removeList(i);
                 renderList();
@@ -137,10 +126,10 @@ const screenController = (() => {
             let currList = backingList.getSublist(i);
             
             title.textContent = currList.name;
-            title.appendChild(editButton);
+            title.appendChild(editImg);
 
             topHolder.appendChild(title);
-            topHolder.appendChild(delButton);
+            topHolder.appendChild(delImg);
             todoListHolder.appendChild(topHolder);
             todoListHolder.appendChild(body);
             todoListHolder.addEventListener('click', (e) => {
@@ -155,6 +144,7 @@ const screenController = (() => {
         } 
         addButton.addEventListener('click', (e) => {
             backingList.addList();
+            console.log(' test test test ');
             renderList();
         });
     }

@@ -44,8 +44,11 @@ function displayList() {
     addButton.classList.toggle('header-button'); 
     addButton.appendChild(addImg);
     addButton.addEventListener('click', (e) => {
-        this.addTask();
-        renderInnerList();
+        this.addTask(() => {
+            renderInnerList();
+        });
+        console.log(' tset tset tset ');
+        //renderInnerList();
     });
     
     header.appendChild(backButton);
@@ -69,48 +72,71 @@ function displayList() {
             taskHolder.classList.toggle('list');
     
             const name = document.createElement('div');
-            name.classList.toggle('todo-title');
-            const editButton = document.createElement('button');
-            const editImg = document.createElement('img');
-            editImg.src = editImage;
-            editButton.appendChild(editImg);
-            editImg.classList.toggle('todo-img');
-            editButton.classList.toggle('todo-button');
-/*             editButton.addEventListener('click', (e) => {
-                let name = prompt('what would you like to rename the sublist to?');
-                backingList.changeSublistName(i, name);
-                renderList();
-            }); */
-            // Edit button is appended later becaue title's textContent is changed.
-
+            const dueDate = document.createElement('div');
+            const completeBox = document.createElement('input');
             
-            const delButton = document.createElement('button');
+            completeBox.type = 'checkbox';
+            name.classList.toggle('todo-title');
+            dueDate.classList.toggle('todo-title');
+
+            completeBox.addEventListener('change', () => {
+                if (completeBox.checked) {
+                    this.list[i].complete();
+                    taskHolder.classList.add('complete');
+                } else {
+                    this.list[i].uncomplete();
+                    taskHolder.classList.remove('complete');
+                }
+            });
+
+            if (this.list[i].priority == '1') {
+                taskHolder.classList.toggle('priority1');
+            } else if (this.list[i].priority == '2') {
+                taskHolder.classList.toggle('priority2');
+            } else {
+                taskHolder.classList.toggle('priority3');
+            }
+
+            name.textContent = this.list[i].name;
+            dueDate.textContent = this.list[i].dueDate;
+            
+            // const delButton = document.createElement('button');
             const delImg = document.createElement('img');
             delImg.classList.toggle('todo-img');
 
             delImg.src = deleteImage;
-            delButton.appendChild(delImg);
-            delButton.classList.toggle('todo-button');
-            delButton.addEventListener('click', (e) => {
-                e.stopImmediatePropagation()
-                backingList.removeList(i);
-                renderList();
+            delImg.addEventListener('click', (e) => {
+                e.stopImmediatePropagation();
+                this.removeItem(i);
+                renderInnerList();
             });
             
+
             const topHolder = document.createElement('div');
+            const leftHalf = document.createElement('div');
+            const rightHalf = document.createElement('div');
+            leftHalf.classList.toggle('list-half');
+            rightHalf.classList.toggle('list-half');
+
+            leftHalf.appendChild(completeBox);
+            leftHalf.appendChild(name);
+
+            rightHalf.appendChild(dueDate);
+            rightHalf.appendChild(delImg);
             topHolder.classList.toggle('top-holder');
-            taskHolder.classList.toggle('task');
-            name.textContent = this.list[i].title;
-            name.appendChild(editButton);
+            // name.appendChild(editButton);
             
-            topHolder.appendChild(name);
-            topHolder.appendChild(delButton);
+            topHolder.appendChild(leftHalf);
+            topHolder.appendChild(rightHalf);
+
             taskHolder.appendChild(topHolder);
+            //taskHolder.appendChild(dueDate);
+
             // todoListHolder.appendChild(body);
-            taskHolder.addEventListener('click', (e) => {
-                backingList.chooseSublist(i);
-                renderList();
-            });
+            // taskHolder.addEventListener('click', (e) => {
+            //     backingList.chooseSublist(i);
+            //     renderList();
+            // });
             listGrid.appendChild(taskHolder);
         }
     };
@@ -130,8 +156,6 @@ function displayList() {
                 listElementHolder.appendChild(listElementCompleted);
                 body.appendChild(listElementHolder);
             } */
-           
-
 }
 
 

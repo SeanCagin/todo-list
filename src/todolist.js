@@ -10,8 +10,16 @@ const todoList = (listName, baseList) => {
         updateItem: function(index) {
             list[index].update();
         },
-        addTask() {
-            this.list.push(listItem());
+        addTask(callBack) {
+            listItem((item) => {
+                this.list.push(item);
+                console.log(' 4 ');
+                callBack();
+            }, () => {
+                console.log(' c ');
+                callBack();
+            });
+            //this.list.push(listItem());
         }
     };
 
