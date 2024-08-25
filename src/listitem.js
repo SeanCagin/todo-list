@@ -1,14 +1,5 @@
-import uimethods from "./uimethods";
-
-// callers of listItem cannot know exactly what listItem wants so it 
-// makes more sense for list item to call the individual ui functions to
-// get the necessary data it needs.
 const listItem = (callBack, cancel) => {
     const retval = {
-        // title: '',
-        // description: '',
-        // priority: 0,
-        // dueDate: 'Jan 1',
         isCompleted: false,
         complete() {
             this.isCompleted = true; 
@@ -16,9 +7,23 @@ const listItem = (callBack, cancel) => {
         uncomplete() {
             this.isCompleted = false;
         },
+        get isComplete() {
+            return this.isCompleted;
+        },
+        update(updateCallBack) {
+            listItemInput((itemInfo) => {
+                console.log('2');
+                retval.name = itemInfo.name;
+                retval.priority = itemInfo.priority;
+                retval.dueDate = itemInfo.dueDate;
+                console.log('3');
+                updateCallBack();
+            }, () => {
+                console.log(' b ');
+                return;
+            }, true, this);
+        },
     };
-    //function makeItem() {
-        //const itemInfo = listItemInput();
 
     listItemInput((itemInfo) => {
         console.log('2');
@@ -30,37 +35,32 @@ const listItem = (callBack, cancel) => {
     }, () => {
         console.log(' b ');
         cancel();
-    });
-        // console.log('what what what what');
-
-    //};
-    //Object.getPrototypeOf(retval).makeItem = makeItem; // This is only useful to make sense of the 'this' keywords in makeItem
+    }, false, retval);
 };
 
 
 // Renders the necessary form to collect list item data
-const listItemInput = (onSubmit, onCancel) => {
+const listItemInput = (onSubmit, onCancel, updateMode, retval) => {
     const dialog = document.querySelector('dialog');
-    const form = document.querySelector('form');
+    const form = document.querySelector('form.item-form');
     const closeDialog = document.querySelector('#close');
     const submitDialog = document.querySelector('#submit');
 
+    if (updateMode) {
+        const formName = document.querySelector('#name');
+        const formPriority = document.querySelector('#priority');
+        const formDueDate = document.querySelector('#due-date');
+        formName.value = retval.name;
+        formPriority.value = retval.priority;
+        formDueDate.value = retval.dueDate;
+    }
+
     dialog.showModal();
 
-    const retval = {
-        name: '',
-        priority: '',
-        dueDate: '',
-    };
+    closeDialog.addEventListener('click', handleCancel);
+    submitDialog.addEventListener('click', handleSubmit);
 
-    closeDialog.addEventListener('click', (e) => {
-        form.reset();
-        dialog.close();
-        console.log(' a ');
-        onCancel();
-    }, {once: true});
-
-    submitDialog.addEventListener('click', (e) => {
+    function handleSubmit(e) {
         e.preventDefault();
         if(form.checkValidity()) {
             let data = new FormData(form);
@@ -70,11 +70,22 @@ const listItemInput = (onSubmit, onCancel) => {
             console.log('im tracing back: 1 ');
             form.reset();
             dialog.close();
+            submitDialog.removeEventListener('click', handleSubmit); 
+            closeDialog.removeEventListener('click', handleCancel);
             onSubmit(retval);
         } else {
             form.reportValidity();
         }
-    }, {once: true});
+    }
+
+    function handleCancel(e) {
+        form.reset();
+        dialog.close();
+        console.log(' a ');
+        submitDialog.removeEventListener('click', handleSubmit); 
+        closeDialog.removeEventListener('click', handleCancel);
+        onCancel();
+    }
 };
 
 export default listItem;

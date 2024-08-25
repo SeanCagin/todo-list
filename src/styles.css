@@ -62,8 +62,6 @@ body {
   border-radius: 0.5rem;
   overflow: hidden;
   margin: 5rem 0;
-    /* display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); */
 }
 #list-box > div {
   font-size: 2rem;
@@ -95,12 +93,6 @@ body {
 }
 .list.priority3 {
   border-left: 0.3rem solid #dc2626;
-}
-.todo-button {
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-  /* height: auto; */
-
 }
 .todo-img {
   width: 1rem;
@@ -146,22 +138,21 @@ p {
   flex: 1 0 auto;
   text-align: center;
 }
-form {
+form.item-form {
   background-color: var(--tertiary-color);
-  /* border: 5px solid var(--secondary-color); */
   border: none;
   border-radius: 0.5rem;
   padding: 3rem;
   font-size: 2rem;
   color: var(--primary-color);
 }
-form label {
+form.item-form label {
   display: inline-block;
   width: 12rem;
   text-align: center;
   font-weight: 100;
 }
-form input, form select, form option {
+form.item-form input, form.item-form select, form.item-form option {
   box-sizing: border-box;
   background-color: var(--secondary-color);
   width: 16rem;
@@ -173,7 +164,7 @@ form input, form select, form option {
   padding-left: 0.4rem;
   font-size: 2rem;
 }
-form input:focus, form select:focus, form option:focus {
+form.item-form input:focus, form.item-form select:focus, form.item-form option:focus {
   background-color: var(--sixth-color);
 }
 .form-pair-holder {
@@ -197,7 +188,7 @@ dialog::backdrop {
   background-image: linear-gradient(var(--secondary-color), var(--secondary-color));
   opacity: 0.5;
 }
-form button {
+form.item-form button {
   width: 12rem;
   background-color: var(--secondary-color);
   padding: 1rem;
@@ -207,7 +198,7 @@ form button {
   color: var(--primary-color);
   transition: background-color 1s;
 }
-form button:hover {
+form.item-form button:hover {
   cursor: pointer;
   background-color: var(--sixth-color);
   -webkit-transition: background-color 400ms linear;
@@ -226,18 +217,22 @@ input[type="checkbox"] {
   border: none;
   outline: none;
 }
-.list {
-  position: relative;
+.list.complete {
+  color: var(--sixth-color);
+  background-color: var(--fifth-color);
+  user-select: none;
+  border-left: 0.3rem solid var(--fifth-color);
 }
-.list.complete::after {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  height: 0.2rem;
-  background-color: white;
-  color: white;
-  content: "";
-  width: 100%;
-  display: block;
-  /* margin: auto;  */
+.inner-title {
+  border: none;
+  outline: none;
+  font-size: 2rem;
+  font-family: "Caveat", cursive, 'Courier New', Courier, monospace;
+  text-align: center;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  text-decoration: underline;
+  text-decoration-thickness: 0.1rem;
+  text-underline-offset: 0.5rem;
+  width: 90%;
 }

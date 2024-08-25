@@ -1,7 +1,6 @@
 import screenController from "./index.js";
 import backImage from './assets/back.svg';
 import addImage from './assets/add.svg';
-import editImage from './assets/edit.svg';
 import deleteImage from './assets/exit.png';
 
 function addItem(item) {
@@ -16,6 +15,9 @@ function getItem(index) {
     return this.list[index];
 }
 
+// Way too big. Would be wise to break it down. 
+// Also out of place compared to the other methods
+// Ideally would have its own file and logic etc
 function displayList() {
     const listGrid = document.querySelector('#list-box');
     const placeHolderText = document.createElement('div');
@@ -33,8 +35,14 @@ function displayList() {
     backImg.classList.toggle('header-img');
     backButton.appendChild(backImg);
 
-    const listTitle = document.createElement('div');
-    listTitle.textContent = this.name;
+    const listTitle = document.createElement('input');
+    listTitle.value = this.name;
+    listTitle.classList.toggle('inner-title');
+    listTitle.setAttribute('maxlength', 30);
+    listTitle.setAttribute('minlength', 1);
+    listTitle.setAttribute('required', true);
+    const wrapperForm = document.createElement('form');
+    wrapperForm.appendChild(listTitle);
 
     const addButton = document.createElement('button');
     addButton.classList.toggle('todo-button');
@@ -48,15 +56,20 @@ function displayList() {
             renderInnerList();
         });
         console.log(' tset tset tset ');
-        //renderInnerList();
     });
     
     header.appendChild(backButton);
-    header.appendChild(listTitle);
+    header.appendChild(wrapperForm);
     header.appendChild(addButton);
 
     backButton.addEventListener('click', (e) => {
-        screenController();
+        if (wrapperForm.checkValidity()) {
+            this.name = listTitle.value;
+            screenController();
+        } else {
+            wrapperForm.reportValidity();
+            listTitle.focus();
+        }
     });
 
 
@@ -79,7 +92,10 @@ function displayList() {
             name.classList.toggle('todo-title');
             dueDate.classList.toggle('todo-title');
 
-            completeBox.addEventListener('change', () => {
+            completeBox.addEventListener('change', (e) => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                console.log('child div clicked');
                 if (completeBox.checked) {
                     this.list[i].complete();
                     taskHolder.classList.add('complete');
@@ -88,6 +104,12 @@ function displayList() {
                     taskHolder.classList.remove('complete');
                 }
             });
+
+            if (this.list[i].isComplete) {
+                taskHolder.classList.add('complete');
+                completeBox.checked = true;
+            }
+
 
             if (this.list[i].priority == '1') {
                 taskHolder.classList.toggle('priority1');
@@ -100,7 +122,6 @@ function displayList() {
             name.textContent = this.list[i].name;
             dueDate.textContent = this.list[i].dueDate;
             
-            // const delButton = document.createElement('button');
             const delImg = document.createElement('img');
             delImg.classList.toggle('todo-img');
 
@@ -109,6 +130,7 @@ function displayList() {
                 e.stopImmediatePropagation();
                 this.removeItem(i);
                 renderInnerList();
+                return;
             });
             
 
@@ -124,38 +146,33 @@ function displayList() {
             rightHalf.appendChild(dueDate);
             rightHalf.appendChild(delImg);
             topHolder.classList.toggle('top-holder');
-            // name.appendChild(editButton);
             
             topHolder.appendChild(leftHalf);
             topHolder.appendChild(rightHalf);
 
-            taskHolder.appendChild(topHolder);
-            //taskHolder.appendChild(dueDate);
 
-            // todoListHolder.appendChild(body);
-            // taskHolder.addEventListener('click', (e) => {
-            //     backingList.chooseSublist(i);
-            //     renderList();
-            // });
+            taskHolder.appendChild(topHolder);
+
+            taskHolder.addEventListener('click', (e) => {
+                console.log('parent div clicked');
+                e.stopImmediatePropagation();
+                this.list[i].update(() => {
+                    renderInnerList();
+                    return;
+                });
+            });
+
             listGrid.appendChild(taskHolder);
         }
+        if (this.list.length == 0) {
+            listGrid.classList.add('empty');
+            listGrid.append(placeHolderText);
+        }
+
+        
     };
+    listTitle.focus();
     renderInnerList();
-    /*             for (let j = 0; j < currList.getList().length; j++) {
-                let currItem = currList.getItem(j);
-                console.log(currItem);
-                const listElementHolder = document.createElement('li');
-                const listElementTitle = document.createElement('h3');
-                const listElementDescription = document.createElement('p');
-                const listElementCompleted = document.createElement('span');
-                listElementTitle.textContent = currItem.title; 
-                listElementDescription.textContent = currItem.description;
-                listElementCompleted.textContent = currItem.isCompleted;
-                listElementHolder.appendChild(listElementTitle);
-                listElementHolder.appendChild(listElementDescription);
-                listElementHolder.appendChild(listElementCompleted);
-                body.appendChild(listElementHolder);
-            } */
 }
 
 

@@ -1,11 +1,9 @@
-import { addItem, removeItem, getItem, displayList, getList } from './listmethods.js';
+import { addItem, removeItem, getItem, displayList } from './listmethods.js';
 import todoList from './todolist.js';
 import listItem from './listitem.js';
 import './styles.css';
 import deleteImage from './assets/exit.png'
-import editImage from './assets/edit.svg'
 import addImage from './assets/add.svg'
-
 
 
 const listController = (() => {
@@ -97,18 +95,6 @@ const screenController = (() => {
 
             const title = document.createElement('div');
             title.classList.toggle('todo-title');
-            const editImg = document.createElement('img');
-            editImg.src = editImage;
-            editImg.classList.toggle('todo-img');
-            editImg.addEventListener('click', (e) => {
-                e.stopImmediatePropagation()
-                let name = prompt('what would you like to rename the sublist to?');
-                backingList.changeSublistName(i, name);
-                renderList();
-            });
-            // Edit button is appended later becaue title's textContent is changed.
-
-            const body = document.createElement('ul');
 
             const delImg = document.createElement('img');
             delImg.classList.toggle('todo-img');
@@ -126,15 +112,12 @@ const screenController = (() => {
             let currList = backingList.getSublist(i);
             
             title.textContent = currList.name;
-            title.appendChild(editImg);
 
             topHolder.appendChild(title);
             topHolder.appendChild(delImg);
             todoListHolder.appendChild(topHolder);
-            todoListHolder.appendChild(body);
             todoListHolder.addEventListener('click', (e) => {
                 backingList.chooseSublist(i);
-                //renderList();
             });
             listGrid.appendChild(todoListHolder);
         }
@@ -144,24 +127,9 @@ const screenController = (() => {
         } 
         addButton.addEventListener('click', (e) => {
             backingList.addList();
-            console.log(' test test test ');
-            renderList();
+            backingList.chooseSublist(backingList.getSize() - 1);
         });
     }
-/*     addListItem.addEventListener('click', (e) => {
-        backingList.addToSublist();
-        renderList();
-    });
-    removeListItem.addEventListener('click', (e) => {
-        let index = prompt('What index would you like to remove?');
-        backingList.removeFromSublist();
-        renderList();
-    });
-    modifyListItem.addEventListener('click', (e) => {
-        let index = prompt('What index would you like to modify?');
-        backingList.modifySublistItem(index);
-        renderList();
-    }); */
     renderList();
     return renderList;
 })();
