@@ -91,9 +91,8 @@ function displayList() {
             name.classList.toggle('todo-title');
             dueDate.classList.toggle('todo-title');
 
-            completeBox.addEventListener('change', (e) => {
+            completeBox.addEventListener('click', (e) => {
                 e.stopImmediatePropagation();
-                e.stopPropagation();
                 if (completeBox.checked) {
                     this.list[i].complete();
                     taskHolder.classList.add('complete');
