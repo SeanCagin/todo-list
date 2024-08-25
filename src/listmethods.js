@@ -55,7 +55,6 @@ function displayList() {
         this.addTask(() => {
             renderInnerList();
         });
-        console.log(' tset tset tset ');
     });
     
     header.appendChild(backButton);
@@ -95,7 +94,6 @@ function displayList() {
             completeBox.addEventListener('change', (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-                console.log('child div clicked');
                 if (completeBox.checked) {
                     this.list[i].complete();
                     taskHolder.classList.add('complete');
@@ -154,7 +152,6 @@ function displayList() {
             taskHolder.appendChild(topHolder);
 
             taskHolder.addEventListener('click', (e) => {
-                console.log('parent div clicked');
                 e.stopImmediatePropagation();
                 this.list[i].update(() => {
                     renderInnerList();

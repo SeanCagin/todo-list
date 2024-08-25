@@ -12,28 +12,22 @@ const listItem = (callBack, cancel) => {
         },
         update(updateCallBack) {
             listItemInput((itemInfo) => {
-                console.log('2');
                 retval.name = itemInfo.name;
                 retval.priority = itemInfo.priority;
                 retval.dueDate = itemInfo.dueDate;
-                console.log('3');
                 updateCallBack();
             }, () => {
-                console.log(' b ');
                 return;
             }, true, this);
         },
     };
 
     listItemInput((itemInfo) => {
-        console.log('2');
         retval.name = itemInfo.name;
         retval.priority = itemInfo.priority;
         retval.dueDate = itemInfo.dueDate;
-        console.log('3');
         callBack(retval);
     }, () => {
-        console.log(' b ');
         cancel();
     }, false, retval);
 };
@@ -67,7 +61,6 @@ const listItemInput = (onSubmit, onCancel, updateMode, retval) => {
             retval.name = data.get('name');
             retval.priority = data.get('priority');
             retval.dueDate = data.get('due-date');
-            console.log('im tracing back: 1 ');
             form.reset();
             dialog.close();
             submitDialog.removeEventListener('click', handleSubmit); 
@@ -81,7 +74,6 @@ const listItemInput = (onSubmit, onCancel, updateMode, retval) => {
     function handleCancel(e) {
         form.reset();
         dialog.close();
-        console.log(' a ');
         submitDialog.removeEventListener('click', handleSubmit); 
         closeDialog.removeEventListener('click', handleCancel);
         onCancel();

@@ -12,10 +12,8 @@ const todoList = (listName, baseList) => {
         addTask(callBack) {
             listItem((item) => {
                 this.list.push(item);
-                console.log(' 4 ');
                 callBack();
             }, () => {
-                console.log(' c ');
                 callBack();
             });
         }
