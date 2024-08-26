@@ -41,6 +41,7 @@ function displayList() {
     listTitle.setAttribute('maxlength', 30);
     listTitle.setAttribute('minlength', 1);
     listTitle.setAttribute('required', true);
+    listTitle.setAttribute('spellCheck', false);
     const wrapperForm = document.createElement('form');
     wrapperForm.appendChild(listTitle);
 
@@ -100,13 +101,21 @@ function displayList() {
                     this.list[i].uncomplete();
                     taskHolder.classList.remove('complete');
                 }
+                renderInnerList();
             });
 
             if (this.list[i].isComplete) {
                 taskHolder.classList.add('complete');
                 completeBox.checked = true;
+            } else { // Only add edit event listener if the task is not yet completed
+                taskHolder.addEventListener('click', (e) => {
+                    e.stopImmediatePropagation();
+                    this.list[i].update(() => {
+                        renderInnerList();
+                        return;
+                    });
+                });
             }
-
 
             if (this.list[i].priority == '1') {
                 taskHolder.classList.toggle('priority1');
@@ -146,26 +155,13 @@ function displayList() {
             
             topHolder.appendChild(leftHalf);
             topHolder.appendChild(rightHalf);
-
-
             taskHolder.appendChild(topHolder);
-
-            taskHolder.addEventListener('click', (e) => {
-                e.stopImmediatePropagation();
-                this.list[i].update(() => {
-                    renderInnerList();
-                    return;
-                });
-            });
-
             listGrid.appendChild(taskHolder);
         }
         if (this.list.length == 0) {
             listGrid.classList.add('empty');
             listGrid.append(placeHolderText);
         }
-
-        
     };
     listTitle.focus();
     renderInnerList();

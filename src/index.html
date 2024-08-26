@@ -16,11 +16,15 @@
   <div class="list-holder">
     <div id="list-box"></div>
   </div>
+  <div class="footer">
+    <a href="https://github.com/SeanCagin/todo-list"><img src="<%=require('./assets/github.svg')%>"></a>
+    <a href="https://github.com/SeanCagin/todo-list">SeanCagin GitHub 2024</a>
+  </div>
   <dialog>
     <form action="" class="item-form">
       <div class="form-pair-holder">
         <label for="name" class="form-label">Name: </label>
-        <input type="text" minlength="1" maxlength="30" name="name" id="name" required />
+        <input type="text" minlength="1" maxlength="30" name="name" id="name" spellcheck="false" required />
       </div>
       <div class="form-pair-holder">
         <label for="priority" class="form-label">Priority: </label>

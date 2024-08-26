@@ -210,13 +210,6 @@ form.item-form button:hover {
   justify-content: space-between;
   margin-top: 1.5rem;
 }
-input[type="checkbox"] {
-  color: var(--sixth-color);
-  background-color: var(--sixth-color);
-  accent-color: var(--sixth-color);
-  border: none;
-  outline: none;
-}
 .list.complete {
   color: var(--sixth-color);
   background-color: var(--fifth-color);
@@ -235,4 +228,34 @@ input[type="checkbox"] {
   text-decoration-thickness: 0.1rem;
   text-underline-offset: 0.5rem;
   width: 90%;
+}
+input[type="checkbox"] {
+  color: var(--sixth-color);
+  background-color: var(--sixth-color);
+  accent-color: var(--sixth-color);
+  border: none;
+  outline: none;
+  /* What you are looking for 
+  is called a slider switch */
+}
+.footer {
+  padding: 0.2rem;
+  width: 100%;
+  background-color: var(--tertiary-color);
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 0.1rem solid var(--fourth-color);
+}
+.footer img {
+  width: 1.5rem;
+  margin-bottom: -0.2rem;
+  color: var(--primary-color);
+}
+.footer a {
+  font-size: 1rem;
+  text-decoration: none;
+  color: var(--primary-color);
 }

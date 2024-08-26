@@ -5,6 +5,11 @@ import './styles.css';
 import deleteImage from './assets/exit.png'
 import addImage from './assets/add.svg'
 
+// TODO: Fix github pushing.
+// Change checkbox to a slider (ios style)
+// add saving functionality
+// Add uz watermark at the bottom
+
 
 const listController = (() => {
     let sublist;
