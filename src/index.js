@@ -1,6 +1,6 @@
 import { addItem, removeItem, getItem, displayList } from './listmethods.js';
 import { todoList, todoHelpers, loadItemFunctions } from './todolist.js';
-import listItem from './listitem.js';
+import { listItem } from './listitem.js';
 import './styles.css';
 import deleteImage from './assets/exit.png'
 import addImage from './assets/add.svg'
