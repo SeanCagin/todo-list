@@ -1,39 +1,45 @@
 import { addItem, removeItem, getItem, displayList } from './listmethods.js';
-import todoList from './todolist.js';
+import { todoList, todoHelpers, loadItemFunctions } from './todolist.js';
 import listItem from './listitem.js';
 import './styles.css';
 import deleteImage from './assets/exit.png'
 import addImage from './assets/add.svg'
-
-// TODO: Fix github pushing.
-// Change checkbox to a slider (ios style)
-// add saving functionality
-// Add uz watermark at the bottom
+import saveImage from './assets/save.svg'
 
 
 const listController = (() => {
-    let sublist;
-    let size = 0;
-    const listHolder = (() => {
-        let list = [];
-        return Object.assign({list}, {addItem, removeItem, getItem, displayList});
-    })();
+    let listHolder;
+    if (localStorage.length == 0) {
+        listHolder = (() => {
+            let size = 0;
+            let sublist;
+            let list = [];
+            return Object.assign({list}, {size, sublist});
+        })();
+    } else {
+        listHolder = JSON.parse(localStorage.getItem('list'));
+        for (let i = 0; i < listHolder.size; i++) {
+            Object.assign(Object.getPrototypeOf(listHolder.list[i]), todoHelpers);
+            listHolder.list[i].loadItemFunctions();
+        }
+    }
+    Object.assign(Object.getPrototypeOf(listHolder), {addItem, removeItem, getItem, displayList});
 
     function addList(listName = 'Todo List') {
         listHolder.addItem(todoList(listName, []));
-        size++;
+        listHolder.size++;
     }
     function removeList(index) {
         listHolder.removeItem(index);
-        size = size > 0 ? size - 1 : 0;
+        listHolder.size = listHolder.size > 0 ? listHolder.size - 1 : 0;
     }
     function chooseSublist(index) {
-        sublist = listHolder.getItem(index);
-        sublist.displayList();
-        return sublist;
+        listHolder.sublist = listHolder.getItem(index);
+        listHolder.sublist.displayList();
+        return listHolder.sublist;
     }
     function getSelected() {
-        return sublist;
+        return listHolder.sublist;
     }
     function getSublist(index) {
         return listHolder.getItem(index);
@@ -42,24 +48,24 @@ const listController = (() => {
         listHolder.list[index].name = name;
     }
     function addToSublist() {
-        sublist.addItem(listItem());
-        sublist.displayList();
-        return sublist;
+        listHolder.sublist.addItem(listItem());
+        listHolder.sublist.displayList();
+        return listHolder.sublist;
     }
     function removeFromSublist(index) {
-        sublist.removeItem(index);
-        sublist.displayList();
-        return sublist;
+        listHolder.sublist.removeItem(index);
+        listHolder.sublist.displayList();
+        return listHolder.sublist;
     }
     function modifySublistItem(index) {
-        sublist.updateItem(index);
-        sublist.displayList();
-        return sublist;
+        listHolder.sublist.updateItem(index);
+        listHolder.sublist.displayList();
+        return listHolder.sublist;
     }
     function getSize() {
-        return size;
+        return listHolder.size;
     }
-    return {addList, removeList, chooseSublist, addToSublist, removeFromSublist, modifySublistItem, changeSublistName, getSize, getSublist, getSelected};
+    return {addList, removeList, chooseSublist, addToSublist, removeFromSublist, modifySublistItem, changeSublistName, getSize, getSublist, getSelected, listHolder};
 });
 
 
@@ -75,19 +81,26 @@ const screenController = (() => {
         
         const placeHolderText = document.createElement('div');
         placeHolderText.innerText = `Looks like you have no todo lists created yet!
-                                    Click on the + to create your first list!`;
+                                    Click on the + to create your first list!
+                                    Click on 'save' to locally save your list!`;
     
                                     
         const header = document.querySelector('#header');
         header.innerHTML = '';
         header.className = '';
+        header.classList.toggle('home-header');
+        const saveImg = document.createElement('img');
         const addImg = document.createElement('img');
         const addButton = document.createElement('button');
+
+        saveImg.src = saveImage;
+        saveImg.classList.toggle('header-img');
     
         addImg.src = addImage;
         addImg.classList.toggle('header-img');
         addButton.appendChild(addImg);
         addButton.classList.toggle('header-button');
+        header.appendChild(saveImg);
         header.appendChild(addButton);
 
         if (backingList.getSize() == 1) {
@@ -132,6 +145,9 @@ const screenController = (() => {
         addButton.addEventListener('click', (e) => {
             backingList.addList();
             backingList.chooseSublist(backingList.getSize() - 1);
+        });
+        saveImg.addEventListener('click', (e) => {
+            localStorage.setItem('list', JSON.stringify(backingList.listHolder));
         });
     }
     renderList();

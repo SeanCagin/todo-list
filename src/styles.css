@@ -30,8 +30,6 @@
   padding: 2rem;
   height: 5rem;
   width: 40%;
-}
-#header.in-list {
   justify-content: space-between;
   font-size: 2rem;
 }
@@ -85,15 +83,6 @@ body {
 .list ~ .list {
   border-top: 0.05rem solid var(--sixth-color);
 }
-.list.priority1 {
-  border-left: 0.3rem solid #65a30d;
-}
-.list.priority2 {
-  border-left: 0.3rem solid #ca8a04;
-}
-.list.priority3 {
-  border-left: 0.3rem solid #dc2626;
-}
 .todo-img {
   width: 1rem;
   height: 1rem;
@@ -122,9 +111,15 @@ body {
   color: white;
   background-color: inherit;
 }
+.header-img:hover {
+  cursor: pointer;
+}
 .header-button {
   background-color: rgba(0, 0, 0, 0);
   border: none;
+}
+.header-button:hover {
+  cursor: pointer;
 }
 li {
   display: flex;
@@ -214,7 +209,6 @@ form.item-form button:hover {
   color: var(--sixth-color);
   background-color: var(--fifth-color);
   user-select: none;
-  border-left: 0.3rem solid var(--fifth-color);
 }
 .inner-title {
   border: none;
@@ -229,14 +223,59 @@ form.item-form button:hover {
   text-underline-offset: 0.5rem;
   width: 90%;
 }
-input[type="checkbox"] {
-  color: var(--sixth-color);
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 26px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
+.slider.priority1 {
+  background-color: #65a30d
+}
+.slider.priority2 {
+  background-color: #ca8a04
+}
+.slider.priority3 {
+  background-color: #dc2626
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  top: 4px;
+  right: 4px;
+  background-color: var(--tertiary-color);
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
   background-color: var(--sixth-color);
-  accent-color: var(--sixth-color);
-  border: none;
-  outline: none;
-  /* What you are looking for 
-  is called a slider switch */
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--sixth-color);
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(-20px);
+  -ms-transform: translateX(-20px);
+  transform: translateX(-20px);
 }
 .footer {
   padding: 0.2rem;

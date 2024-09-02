@@ -15,9 +15,14 @@ function getItem(index) {
     return this.list[index];
 }
 
-// Way too big. Would be wise to break it down. 
-// Also out of place compared to the other methods
-// Ideally would have its own file and logic etc
+const nextNum = (() => {
+    let num = 0;
+    function getNextNum() {
+        return(++num);
+    }
+    return getNextNum;
+})();
+
 function displayList() {
     const listGrid = document.querySelector('#list-box');
     const placeHolderText = document.createElement('div');
@@ -83,46 +88,62 @@ function displayList() {
         for (let i = 0; i < this.list.length; i++) {
             const taskHolder = document.createElement('div');
             taskHolder.classList.toggle('list');
-    
+
+            let clickAble = true;
+            const currNum = nextNum();
             const name = document.createElement('div');
             const dueDate = document.createElement('div');
             const completeBox = document.createElement('input');
-            
+            const completeBoxLabel = document.createElement('div');
+            const completeBoxSlider = document.createElement('span');
+        
             completeBox.type = 'checkbox';
+            completeBoxLabel.classList.toggle('switch');
+            completeBoxSlider.classList.toggle('slider');
+            completeBoxLabel.append(completeBox);
+            completeBoxLabel.append(completeBoxSlider);
             name.classList.toggle('todo-title');
             dueDate.classList.toggle('todo-title');
 
-            completeBox.addEventListener('click', (e) => {
+            completeBoxLabel.addEventListener('click', (e) => {
                 e.stopImmediatePropagation();
-                if (completeBox.checked) {
+                if (!this.list[i].isComplete()) {
                     this.list[i].complete();
+                    completeBox.checked = true;
+                    clickAble = false;
                     taskHolder.classList.add('complete');
                 } else {
+                    clickAble = true;
                     this.list[i].uncomplete();
+                    completeBox.checked = false;
                     taskHolder.classList.remove('complete');
                 }
-                renderInnerList();
+                console.log(this.list[i].isComplete());
+                
+                setTimeout(() => {renderInnerList()}, "400");
             });
 
-            if (this.list[i].isComplete) {
+            if (this.list[i].isComplete()) {
                 taskHolder.classList.add('complete');
                 completeBox.checked = true;
             } else { // Only add edit event listener if the task is not yet completed
                 taskHolder.addEventListener('click', (e) => {
                     e.stopImmediatePropagation();
-                    this.list[i].update(() => {
-                        renderInnerList();
-                        return;
-                    });
+                    if (clickAble) {
+                        this.list[i].update(() => {
+                            renderInnerList();
+                            return;
+                        });
+                    }
                 });
             }
 
             if (this.list[i].priority == '1') {
-                taskHolder.classList.toggle('priority1');
+                completeBoxSlider.classList.toggle('priority1');
             } else if (this.list[i].priority == '2') {
-                taskHolder.classList.toggle('priority2');
+                completeBoxSlider.classList.toggle('priority2');
             } else {
-                taskHolder.classList.toggle('priority3');
+                completeBoxSlider.classList.toggle('priority3');
             }
 
             name.textContent = this.list[i].name;
@@ -139,14 +160,13 @@ function displayList() {
                 return;
             });
             
-
             const topHolder = document.createElement('div');
             const leftHalf = document.createElement('div');
             const rightHalf = document.createElement('div');
             leftHalf.classList.toggle('list-half');
             rightHalf.classList.toggle('list-half');
 
-            leftHalf.appendChild(completeBox);
+            leftHalf.appendChild(completeBoxLabel);
             leftHalf.appendChild(name);
 
             rightHalf.appendChild(dueDate);
