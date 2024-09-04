@@ -49,6 +49,7 @@ function displayList() {
     listTitle.setAttribute('spellCheck', false);
     const wrapperForm = document.createElement('form');
     wrapperForm.appendChild(listTitle);
+    wrapperForm.addEventListener('submit', (e) => {e.preventDefault()});
 
     const addButton = document.createElement('button');
     addButton.classList.toggle('todo-button');

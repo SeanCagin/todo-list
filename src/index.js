@@ -148,6 +148,7 @@ const screenController = (() => {
         });
         saveImg.addEventListener('click', (e) => {
             localStorage.setItem('list', JSON.stringify(backingList.listHolder));
+            alert(`Your Todo Lists have been saved. They will be here when you come back at a later time`);
         });
     }
     renderList();
