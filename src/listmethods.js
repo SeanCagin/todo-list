@@ -119,7 +119,6 @@ function displayList() {
                     completeBox.checked = false;
                     taskHolder.classList.remove('complete');
                 }
-                console.log(this.list[i].isComplete());
                 
                 setTimeout(() => {renderInnerList()}, "400");
             });
